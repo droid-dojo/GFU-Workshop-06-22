@@ -1,21 +1,57 @@
 package de.firma.schulung.post
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.runtime.Composable
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import de.firma.schulung.clock.ui.ClockDisplay
+import de.firma.schulung.post.api.FakeApi
 import de.firma.schulung.post.model.Post
 import de.firma.schulung.post.model.User
 import de.firma.schulung.post.ui.PostCard
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlin.random.Random
+
+@Composable
+fun PostScreen() {
+    var posts by remember {
+        mutableStateOf(emptyList<Post>())
+    }
+
+    LaunchedEffect("sample") {
+        posts = withContext(Dispatchers.IO) {
+            FakeApi().fetchPosts(20)
+        }
+    }
+
+    if (posts.isEmpty()) {
+        CircularProgressIndicator(
+            modifier = Modifier
+                .fillMaxSize()
+                .wrapContentSize()
+        )
+    } else {
+        PostScreen(posts = posts)
+    }
+
+}
 
 @Composable
 fun PostScreen(posts: List<Post>) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
+
+        item {
+            ClockDisplay()
+        }
 
         items(posts) {
             PostCard(post = it)

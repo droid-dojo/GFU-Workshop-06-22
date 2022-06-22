@@ -3,24 +3,52 @@ package de.firma.schulung.post.ui
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
-import androidx.compose.runtime.Composable
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import de.firma.schulung.post.model.Post
 import de.firma.schulung.post.model.User
 
+
 @Composable
 fun PostCard(post: Post) {
-    Card {
-        Column() {
-            UserSection(user = post.user, modifier = Modifier.padding(all = 8.dp))
-            Picture(url = post.pictureUrl)
-            PostStatistics(
-                likes = post.likes,
-                comments = post.comments,
-                modifier = Modifier.padding(horizontal = 8.dp, vertical = 24.dp)
-            )
+
+    var realPost by remember {
+        mutableStateOf(post)
+    }
+
+    var loading by remember {
+        mutableStateOf(false)
+    }
+
+    LaunchedEffect("sample") {
+//        loading = true
+//
+//        val apiPost = withContext(Dispatchers.IO) {
+//            FakeApi().fetchPost("Sample User")
+//        }
+//
+//        withContext(Dispatchers.Main) {
+//            realPost = apiPost
+//            loading = false
+//        }
+    }
+
+    if(loading) {
+        CircularProgressIndicator()
+    } else {
+        Card {
+            Column() {
+                UserSection(user = realPost.user, modifier = Modifier.padding(all = 8.dp))
+                Picture(url = realPost.pictureUrl)
+                PostStatistics(
+                    likes = realPost.likes,
+                    comments = realPost.comments,
+                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 24.dp)
+                )
+            }
         }
     }
 }
