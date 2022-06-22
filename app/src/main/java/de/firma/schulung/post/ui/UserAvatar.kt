@@ -8,17 +8,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import de.firma.schulung.post.model.User
 
 @Composable
 fun UserAvatar(url: String) {
-    Box(
+    AsyncImage(
         modifier = Modifier
             .size(48.dp)
             .clip(CircleShape)
-            .background(color = Color.Gray)
+            .background(color = Color.Gray),
+        contentDescription = null,
+        model = url,
+        contentScale = ContentScale.Crop
     )
 }
 
