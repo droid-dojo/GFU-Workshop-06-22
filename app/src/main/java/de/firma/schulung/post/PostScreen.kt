@@ -23,11 +23,10 @@ fun PostScreen() {
 
     val viewModel: PostViewModel = viewModel()
 
-    val loading = viewModel.loading.collectAsState().value
-    val posts = viewModel.posts.collectAsState().value
+    val state = viewModel.state.collectAsState().value
 
 
-    if (loading) {
+    if (state.loading) {
         CircularProgressIndicator(
             modifier = Modifier
                 .fillMaxSize()
@@ -35,7 +34,7 @@ fun PostScreen() {
         )
     }
 
-    PostScreen(posts = posts)
+    PostScreen(posts = state.posts)
 
 }
 
@@ -44,11 +43,6 @@ fun PostScreen(posts: List<Post>) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-
-        item {
-            ClockDisplay()
-        }
-
         items(posts) {
             PostCard(post = it)
         }

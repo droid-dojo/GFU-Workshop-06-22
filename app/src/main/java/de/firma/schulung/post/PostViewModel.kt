@@ -12,8 +12,9 @@ class PostViewModel : ViewModel() {
 
     private val api = FakeApi()
 
-    val loading = MutableStateFlow(false)
-    val posts = MutableStateFlow(emptyList<Post>())
+    val state = MutableStateFlow(
+        UiState(loading = false, posts = emptyList())
+    )
 
     init {
         loadData()
@@ -21,9 +22,21 @@ class PostViewModel : ViewModel() {
 
     private fun loadData() {
         viewModelScope.launch {
-            loading.update { true }
-            posts.update { api.fetchPosts(20) }
-            loading.update { false }
+            state.update {
+                it.copy(loading = true)
+            }
+
+            state.update {
+                it.copy(
+                    loading = false,
+                    posts = api.fetchPosts(20)
+                )
+            }
         }
     }
 }
+
+data class UiState(
+    val loading: Boolean,
+    val posts: List<Post>
+)
