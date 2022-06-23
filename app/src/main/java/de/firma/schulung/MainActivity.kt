@@ -1,22 +1,14 @@
 package de.firma.schulung
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.lifecycleScope
-import de.firma.schulung.post.PostScreen
-import de.firma.schulung.post.PostScreenPreview
+import de.firma.schulung.news.ui.NewsScreen
 import de.firma.schulung.ui.theme.GfuSchulungTheme
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlin.time.Duration.Companion.minutes
-import kotlin.time.Duration.Companion.seconds
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +20,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    PostScreen()
+                    //Auskentieren fur statische daten
+                    //PostScreen()
+                    NewsScreen()
                 }
             }
         }
